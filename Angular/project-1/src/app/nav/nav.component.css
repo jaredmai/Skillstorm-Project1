@@ -11,10 +11,8 @@ nav {
 nav a {
     display: inline-block;
     padding: .5em 1.5em;
-
     color: #333;
     text-decoration: none;
-
     font-weight: bold;
 }
 

@@ -1,1 +1,7 @@
-<p>employees works!</p>
+<ng-container *ngFor="let emp of data">
+    <!--{{ allows use to use JS code here}}-->
+    <h2>{{ emp.employeeFirstName }}</h2>
+    <h3>Employee ID: {{ emp.employeeId }}</h3>
+    <h4>Office ID: {{emp.office.officeId}}</h4>
+    <br>
+</ng-container>

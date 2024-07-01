@@ -1,1 +1,6 @@
-<p>offices works!</p>
+<ng-container *ngFor="let office of data">
+    <!--{{ allows use to use JS code here}}-->
+    <h2>{{ office.officeName }}</h2>
+    <h4>Office ID: {{office.officeId}}</h4>
+    <br>
+</ng-container>
