@@ -1,17 +1,17 @@
 /* header.component.css */
 
-.header {
+header {
     background-color: #f2f2f2;
     padding: 0.1em;
     text-align: center;
 }
 
-h1 {
+header h1 {
     color: #333;
     font-size: 32px;
 }
 
-h2 {
+header h2 {
     color: #333;
     font-size: 18px;
 }
