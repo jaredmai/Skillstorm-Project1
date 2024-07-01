@@ -1,0 +1,24 @@
+/* nav.component.css */
+
+/* Style the navigation bar */
+nav {
+    background-color: #f4bfbf;
+    border: 1px solid #363333;
+    text-align: center;
+}
+
+/* Style the navigation links */
+nav a {
+    display: inline-block;
+    padding: .5em 1.5em;
+
+    color: #333;
+    text-decoration: none;
+
+    font-weight: bold;
+}
+
+nav a:hover {
+    color: #000;
+    background-color: #ddd;
+}
