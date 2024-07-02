@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-offices',
   standalone: true,
-  imports: [HttpClientModule, CommonModule],
+  imports: [CommonModule],
   templateUrl: './offices.component.html',
   styleUrl: './offices.component.css'
 })

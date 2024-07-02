@@ -1,0 +1,12 @@
+<article>
+    <h3>{{ employee.employeeFirstName + " " + employee.employeeLastName }}</h3>
+    <h4>Employee ID: {{ employee.employeeId }}</h4>
+    <h5>Office:</h5>
+    <p>{{ employee.office.officeName }}</p>
+
+    <button (click)="deleteEmployee()">DELETE</button>
+<!-- 
+    <button (click)="sendFavoriteDepartment()">FAVORITE</button>
+    <button (click)="deleteThisDepartment()">DELETE</button> -->
+ 
+</article>

@@ -1,7 +1,43 @@
-<ng-container *ngFor="let emp of data">
-    <!--{{ allows use to use JS code here}}-->
-    <h2>{{ emp.employeeFirstName }}</h2>
-    <h3>Employee ID: {{ emp.employeeId }}</h3>
-    <h4>Office ID: {{emp.office.officeId}}</h4>
-    <br>
-</ng-container>
+<h2>Employees</h2>
+
+
+<div class="buttons">
+
+    <form>
+        <label for="postFormId">Employee ID: </label>
+        <input type="number" name="postFormId" id="postFormId"
+        [(ngModel)]="formEmployee.employeeId">
+
+        <br>
+        <label for="postFormFirstName">Employee First Name: </label>
+        <input type="text" name="postFormFirstName" id="postFormFirstName"
+        [(ngModel)]="formEmployee.employeeFirstName">
+        <br>
+        <label for="postFormLastName">Employee Last Name: </label>
+        <input type="text" name="postFormLastName" id="postFormLastName"
+        [(ngModel)]="formEmployee.employeeLastName">
+        <br>
+        <label for="postFormAddress">Employee Address: </label>
+        <input type="text" name="postFormAddress" id="postFormAddress"
+        [(ngModel)]="formEmployee.employeeAddress">
+        <br>
+        <label for="postFormSsn">Employee SSN: </label>
+        <input type="text" name="postFormSsn" id="postFormSsn"
+        [(ngModel)]="formEmployee.employeeSsn">
+        <br>
+        <label for="postFormOfficeId">Office ID: </label>
+        <input type="number" name="postFormOfficeId" id="postFormOfficeId"
+        [(ngModel)]="formEmployee.office.officeId">
+
+        <!-- disabling our button if the entered name or ID is a duplicate -->
+         <br>
+        <button (click)="addEmployee()">New Employee</button>
+    </form>
+    
+</div>
+
+@for (employee of employees; track $index) {
+    <!-- [] binds the department property value of this card to the value of
+        department, which is the current item in the loop -->
+    <app-employee-card (deleteEmployeeEvent)="processDeleteEvent($event)" [employee]="employee"></app-employee-card>
+}

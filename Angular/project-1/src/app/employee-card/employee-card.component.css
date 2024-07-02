@@ -1,0 +1,50 @@
+article {
+    background-color: #ffffff;
+    border-radius: 18px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 16px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    margin-bottom: 10px;
+    display: inline-block;
+    width: 125px;
+    margin-right: 10px;
+}
+
+article h3 {
+    text-align: left;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 2px;
+}
+
+article h4 {
+    font-size: 14px;
+    color: #333333;
+    margin-bottom: 16px;
+}
+
+article h5 {
+    font-size: 12px;
+    color: #999999;
+}
+
+button {
+    margin-top: 10px;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    background-color: rgba(255, 110, 110, 0.5);
+    color: #434343;
+    font-weight: bold;
+    font-size: 12px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);;
+}
+
+button:hover {
+    background-color: rgba(255, 110, 110, 0.9);
+}
+
+button:active {
+    background-color: rgba(255, 110, 110, 1);
+}

@@ -1,6 +1,7 @@
 package com.skillstorm.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,21 +29,21 @@ public class OfficeController {
 	}
 	
 	@GetMapping("/{id}")
-	public Office getOfficeById(@PathVariable int id) {
+	public ResponseEntity<Office> getOfficeById(@PathVariable int id) {
 		return service.getOfficeById(id);
 	}
 	
 	@PutMapping
-	public Office updateOffice(@RequestBody Office office) {
+	public ResponseEntity<Office> updateOffice(@RequestBody Office office) {
 		return service.updateOffice(office);
 	}
 	
 	@PostMapping
-	public Office createOffice(@RequestBody Office office) {
+	public ResponseEntity<Office> createOffice(@RequestBody Office office) {
 		return service.createOffice(office);
 	}
 	
-	@DeleteMapping
+	@DeleteMapping("/{id}")
 	public void deleteOfficeById(@PathVariable int id) {
 		service.deleteOfficeById(id);
 	}
