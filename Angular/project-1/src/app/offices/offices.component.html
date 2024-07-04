@@ -1,6 +1,69 @@
-<ng-container *ngFor="let office of data">
-    <!--{{ allows use to use JS code here}}-->
-    <h2>{{ office.officeName }}</h2>
-    <h4>Office ID: {{office.officeId}}</h4>
+<div class="buttons">
+    <h2>Create New Office</h2>
+    <form>
+        <label for="postFormName">Office Name: </label>
+        <input type="text" name="postFormName" id="postFormName"
+        [(ngModel)]="formOffice.officeName">
+
+        <label for="postFormAddress">Office Address: </label>
+        <input type="text" name="postFormAddress" id="postFormAddress"
+        [(ngModel)]="formOffice.officeAddress">
+
+        <label for="postFormMax">Max Number of Employees: </label>
+        <input type="number" name="postFormMax" id="postFormMax"
+        [(ngModel)]="formOffice.officeMaxEmployees">
+        <!-- disabling our button if the entered name or ID is a duplicate -->
+        
+    </form>
+
+    
+    <button [disabled]="officeNames.includes(formOffice.officeName)" (click)="addOffice()">CREATE</button>
+
+    @if (officeNames.includes(formOffice.officeName)) {
+        <p class="error">Office Name already exists!</p>
+    }
+
+    @if (isNameNull == true) {
+        <p class="error">Office Name cannot be blank!</p>
+    }
+    
+</div>
+
+<h4>Search by Office ID:</h4>
+
+<article>
+    <form #idForm>
+        <input type="number"   
+                id="searchId" 
+                name="searchId"
+                [(ngModel)]="searchId" #formId>
+
+        <button id="search" (click)="getOfficeById()">SUBMIT</button>
+        <button id="reset" (click)="getAllOffices()">RESET</button>
+    </form>
+
+    @if (officeDoesNotExist) {
+        <div style="color: red;">
+            Employee with that ID doesn't exist!
+        </div>
+    }
+</article>
+
+<article>
+    <h2>Offices</h2>
+
+    <button (click)="getAllOffices()">Sort by ID</button>
+    <button (click)="getOfficesSortedByName()">Sort by Name</button>
     <br>
-</ng-container>
+
+    @if (offices.length <= 0 ) {
+        <p>No offices found.</p>
+    }
+    
+
+    @for (office of offices; track $index) {
+        <!-- [] binds the department property value of this card to the value of
+            department, which is the current item in the loop -->
+        <app-office-card (deleteOfficeEvent)="processDeleteEvent($event)" [office]="office"></app-office-card>
+    }
+</article>

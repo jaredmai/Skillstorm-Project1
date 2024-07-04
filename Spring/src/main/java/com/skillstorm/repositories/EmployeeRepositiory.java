@@ -13,5 +13,17 @@ public interface EmployeeRepositiory extends CrudRepository<Employee, Integer> {
 	// getting a count of the departments
 	@Query(value = "SELECT COUNT(*) FROM employee WHERE office_id = :officeId", nativeQuery = true)
 	public int countEmployeesByOffice(@Param("officeId") int officeId );
-
+	
+	// getting maxEmployeeCount by office ID
+	@Query(value = "SELECT office_max_employees FROM office WHERE office_id = :officeId", nativeQuery = true)
+	public int getMaxEmployeesByOfficeId(@Param("officeId") int officeId );
+	
+	// Sort employees by firstname, lastname
+	@Query(value = "SELECT * FROM employee ORDER BY employee_firstname, employee_lastname", nativeQuery = true)
+	public Iterable<Employee> findAllSortedByName();
+	
+	// Does office exists
+	@Query(value = "SELECT COUNT(*) FROM office WHERE office_id = :officeId", nativeQuery = true)
+	public int countOfficeById(@Param("officeId") int officeId );
+	
 }

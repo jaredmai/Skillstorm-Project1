@@ -1,0 +1,74 @@
+<h1>Office Details</h1>
+<h3>Office ID: {{ office.officeId }}</h3>
+
+<form>
+    <h2>Edit Details</h2>
+
+    <label for="updateOfficeName">Office Name: </label>
+    <input type="text" id="updateOfficeName" name="updateOfficeName"
+        [(ngModel)]='updatedOffice.officeName'>
+
+    <label for="updateOfficeAddress">Address: </label>
+    <input type="text" id="updateOfficeAddress" name="updateOfficeAddress"
+        [(ngModel)]='updatedOffice.officeAddress'>
+
+    <label for="updateMaxEmployees">Max Employees: </label>
+    <input type="text" id="updateMaxEmployees" name="updateMaxEmployees"
+        [(ngModel)]='updatedOffice.officeMaxEmployees'>
+
+    <button (click)="updateOffice()">UPDATE</button>
+    @if (maxEmployees) {
+        <h3 class="error">Max Employees cannot be less than current employees!</h3>
+    }
+</form>
+
+<h2>Saved Details</h2>
+
+<table>
+    <tbody>
+        <tr>
+            <td>Office Name</td>
+            <td>{{ office.officeName }}</td>
+        </tr>
+
+        <tr>
+            <td>Office Address</td>
+            <td>{{ office.officeAddress }}</td>
+        </tr>
+
+        <tr>
+            <td>Max Employees</td>
+            <td>{{ office.officeMaxEmployees }}</td>
+        </tr>
+    </tbody>
+</table>
+
+<h3>Employees (Total: {{ office.employees.length }})</h3>
+<h4>Click on an employee to view more details</h4>
+@if (office.employees.length) {
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Address</th>
+                <th>SSN</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            @for (emp of office.employees; track $index) {
+                <tr class="employee" (click)="routeToEmployeeDetail(emp.employeeId)">
+                    <td>{{ emp.employeeId }}</td>
+                    <td>{{ emp.employeeFirstName + " " + emp.employeeLastName }}</td>
+                    <td>{{ emp.employeeAddress }}</td>
+                    <td>{{ emp.employeeSsn }}</td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+} @else {
+    <p>No employees found for this department.</p>
+}

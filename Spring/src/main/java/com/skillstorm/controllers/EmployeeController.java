@@ -17,7 +17,7 @@ import com.skillstorm.services.EmployeeService;
 
 @RestController							// combines @Controller and @ResponseBody
 @RequestMapping("/employee")			// all requests to baseUrl plus this suffix will route here
-@CrossOrigin(origins = "*")	
+@CrossOrigin(origins = "*", exposedHeaders = {"error"})	
 public class EmployeeController {
 
 	@Autowired
@@ -36,6 +36,11 @@ public class EmployeeController {
 		return service.getEmployeeById(id);
 	}
 	
+	@GetMapping("/sortName")
+	public Iterable<Employee> getEmployeesSortedByName() {
+		return service.getEmployeesSortedByName();
+	}
+	
 	@GetMapping("/count/{id}")
 	public int getEmployeeCountByOfficeId(@PathVariable int id) {
 		return service.getEmployeeCountByOfficeId(id);
@@ -43,7 +48,9 @@ public class EmployeeController {
 	
 	@PutMapping
 	public ResponseEntity<Employee> updateEmployee(@RequestBody Employee employee) {
-		return service.updateEmployee(employee);
+		ResponseEntity<Employee> response = service.updateEmployee(employee);
+		System.out.println(response);
+		return response;
 	}
 	
 	@PostMapping

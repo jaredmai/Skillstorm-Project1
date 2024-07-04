@@ -17,7 +17,7 @@ import com.skillstorm.services.OfficeService;
 
 @RestController
 @RequestMapping("/office")	
-@CrossOrigin(origins = "*")	
+@CrossOrigin(origins = "*", exposedHeaders = {"error"})	
 public class OfficeController {
 
 	@Autowired
@@ -28,14 +28,21 @@ public class OfficeController {
 		return service.getAllOffices();
 	}
 	
+	@GetMapping("/sortName")
+	public Iterable<Office> getEmployeesSortedByName() {
+		return service.getOfficeSortedByName();
+	}
+	
 	@GetMapping("/{id}")
 	public ResponseEntity<Office> getOfficeById(@PathVariable int id) {
 		return service.getOfficeById(id);
 	}
 	
 	@PutMapping
-	public ResponseEntity<Office> updateOffice(@RequestBody Office office) {
-		return service.updateOffice(office);
+	public ResponseEntity<Office> updateEmployee(@RequestBody Office office) {
+		ResponseEntity<Office> response = service.updateOffice(office);
+		System.out.println(response);
+		return response;
 	}
 	
 	@PostMapping

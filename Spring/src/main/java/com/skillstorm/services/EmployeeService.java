@@ -1,9 +1,11 @@
 package com.skillstorm.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
 import com.skillstorm.models.Employee;
 import com.skillstorm.repositories.EmployeeRepositiory;
 
@@ -33,16 +35,26 @@ public class EmployeeService {
 		return repo.countEmployeesByOffice(id);
 	}
 	
+	public Iterable<Employee> getEmployeesSortedByName() {
+		return repo.findAllSortedByName();
+	}
+	
 	// Update by ID
 	public ResponseEntity<Employee> updateEmployee(Employee employee) {
 		if (!repo.existsById(employee.getEmployeeId()))
 			return ResponseEntity.status(HttpStatus.NOT_FOUND)
-					 .header("Error", "An employee with this ID doesn't exist!")
+					 .header("error", "invalidId")
 					 .body(null);
 		
-		if (repo.countEmployeesByOffice(employee.getOffice().getOfficeId()) >= employee.getOffice().getOfficeMaxEmployees())
+		if (repo.countOfficeById(employee.getOffice().getOfficeId()) <= 0) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-					.header("Error", "Office has max employees!")
+					.header("error", "invalidOfficeId")
+					.body(null);
+		}
+		
+		if (repo.countEmployeesByOffice(employee.getOffice().getOfficeId()) >= (repo.getMaxEmployeesByOfficeId(employee.getOffice().getOfficeId())))
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+					.header("error", "maxEmployees")
 					.body(null);
 			
 		return ResponseEntity.status(HttpStatus.OK)
@@ -53,18 +65,22 @@ public class EmployeeService {
 	// Create by ID
 	public ResponseEntity<Employee> createEmployee(Employee employee) {
 		if (repo.existsById(employee.getEmployeeId())) {
-			System.out.println("ID EXISTS");
-			return ResponseEntity.status(HttpStatus.CONFLICT)
-					 .header("Error", "An employee with this ID already exists!")
-					 .body(null);
+			HttpHeaders responseHeaders = new HttpHeaders();
+			responseHeaders.set("error", "idAlreadyExists");
+			return new ResponseEntity<Employee>(null, responseHeaders, HttpStatus.BAD_REQUEST);
 		}
 		
-//		if (repo.countEmployeesByOffice(employee.getOffice().getOfficeId()) >= employee.getOffice().getOfficeMaxEmployees()) {
-//			System.out.println(employee.getOffice().getOfficeMaxEmployees());
-//			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-//					.header("Error", "Office has max employees!")
-//					.body(null);
-//		}
+		if (repo.countOfficeById(employee.getOffice().getOfficeId()) <= 0) {
+			HttpHeaders responseHeaders = new HttpHeaders();
+			responseHeaders.set("error", "badOfficeId");
+			return new ResponseEntity<Employee>(null, responseHeaders, HttpStatus.BAD_REQUEST);
+		}
+		
+		if (repo.countEmployeesByOffice(employee.getOffice().getOfficeId()) >= (repo.getMaxEmployeesByOfficeId(employee.getOffice().getOfficeId()))) {
+			HttpHeaders responseHeaders = new HttpHeaders();
+			responseHeaders.set("error", "maxEmployees");
+			return new ResponseEntity<Employee>(null, responseHeaders, HttpStatus.BAD_REQUEST);
+		}
 		
 		return ResponseEntity.status(HttpStatus.OK)
 				 .header("Message", "We successfully created an employee")

@@ -5,6 +5,7 @@ import { EmployeeCardComponent } from "../employee-card/employee-card.component"
 import { Employee } from '../models/employee';
 import { FormsModule } from '@angular/forms';
 import { HttpService } from '../services/http.service';
+import { Office } from '../models/office';
 
 @Component({
     selector: 'app-employees',
@@ -16,6 +17,10 @@ import { HttpService } from '../services/http.service';
 export class EmployeesComponent {
 
   employees: Employee[] = [];
+  searchId: number = 0;
+  employeeDoesNotExist: boolean = false;
+  officeDoesNotExist: boolean = false;
+  maxEmployees: boolean = false;
 
   // this injects HttpClient for us to use
   // dependency injection
@@ -25,14 +30,38 @@ export class EmployeesComponent {
     this.getAllEmployees();
   }
 
-  formEmployee: Employee = new Employee(0, "", "", "", "", 0, {"officeId": 0});
-
+  formEmployee: Employee = new Employee(0, "", "", "", "", 0, new Office(0, "", "", 0, []));
   addEmployee() {
-    this.httpService.updateEmployee(this.formEmployee)
-        .subscribe(response => {
-          console.log(response);
+    this.httpService.createEmployee(this.formEmployee)
+    .subscribe(
+      // this object contains our observer arguments
+      // next for success, error for failure, complete for all
+    {
+      next: data => {
+        this.employees = [];
+        if (data.body && data.body !== null) {
           this.getAllEmployees();
-        });
+          this.officeDoesNotExist = false;
+          this.maxEmployees = false;
+          console.log('success!');
+        }
+      },
+      error: error => { // some lambda for an error response
+
+        console.log(error.headers);
+        if (error.status == 400 && error.headers.get('error') == 'badOfficeId') {
+          this.officeDoesNotExist = true;
+        } else if (error.status == 400 && error.headers.get('error') == 'maxEmployees') {
+          this.maxEmployees = true;
+        }
+        this.getAllEmployees();
+      },
+      // a lambda for something to do AFTER a successful response
+      // useful for void return HTTP methods like DELETE
+      complete: () => {
+        console.log('Complete');
+      }
+    });
   }
 
   getAllEmployees() {
@@ -50,16 +79,58 @@ export class EmployeesComponent {
         });
     }
 
-    deleteEmployee(employeeId: number) {
-      this.httpService.deleteEmployee(employeeId)
-        .subscribe(data => {
-          this.getAllEmployees();
+  getEmployeesSortedByName() {
+    this.employees = [];
+
+    this.httpService.getEmployeesSortedByName()
+        .subscribe(response => {
+          let body: any = response.body;
+
+          for (let item of body) {
+            // we're creating a new Department object for each item in the response
+            // and pushing it into our departments array
+            console.log(item);
+            this.employees.push(new Employee(item.employeeId, item.employeeFirstName, item.employeeLastName, item.employeeAddress, item.employeeSsn, item.employeeManagerId, item.office));
+          }
         });
-    }
-  
-    // this method runs when the deleteDepartmentEvent is emitted from the child component
-    processDeleteEvent(employeeId: number) {
-      this.deleteEmployee(employeeId);
-    }
+  }
+
+  getEmployeeById() {
+    this.httpService.getEmployeeById(this.searchId).subscribe(
+      // this object contains our observer arguments
+      // next for success, error for failure, complete for all
+    {
+      next: data => {
+        this.employees = [];
+        if (data.body && data.body !== null) {
+          this.employees.push(data.body as Employee);
+          this.employeeDoesNotExist = false;
+          console.log('success!');
+        }
+      },
+      error: error => { // some lambda for an error response
+        console.log(error);
+        this.employeeDoesNotExist = true;
+        this.getAllEmployees();
+      },
+      // a lambda for something to do AFTER a successful response
+      // useful for void return HTTP methods like DELETE
+      complete: () => {
+        console.log('Complete');
+      }
+    });
+  }
+
+  deleteEmployee(employeeId: number) {
+    this.httpService.deleteEmployee(employeeId)
+      .subscribe(data => {
+        this.getAllEmployees();
+      });
+  }
+
+  // this method runs when the deleteDepartmentEvent is emitted from the child component
+  processDeleteEvent(employeeId: number) {
+    this.deleteEmployee(employeeId);
+  }
 
 }
