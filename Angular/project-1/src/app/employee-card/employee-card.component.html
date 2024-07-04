@@ -1,0 +1,17 @@
+<article>
+    <h3>{{ employee.employeeFirstName + " " + employee.employeeLastName }}</h3>
+    <h4>Employee ID: {{ employee.employeeId }}</h4>
+    @if (employee.office) {
+        <h5>Office: {{ employee.office.officeName }}</h5>
+    } @else {
+        <h5 style="color: rgba(255, 115, 115, 0.802);">No assigned office!</h5>
+    }
+    
+
+    <button id="edit" (click)="editEmployee()">EDIT</button>
+    <button id="delete" (click)="deleteEmployee()">DELETE</button>
+<!-- 
+    <button (click)="sendFavoriteDepartment()">FAVORITE</button>
+    <button (click)="deleteThisDepartment()">DELETE</button> -->
+ 
+</article>

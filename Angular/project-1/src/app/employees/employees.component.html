@@ -1,1 +1,73 @@
-<p>employees works!</p>
+<div class="buttons">
+    <h2>Create New Employee</h2>
+    <form>
+        <label for="postFormFirstName">First Name: </label>
+        <input type="text" name="postFormFirstName" id="postFormFirstName"
+        [(ngModel)]="formEmployee.employeeFirstName">
+
+        <label for="postFormLastName">Last Name: </label>
+        <input type="text" name="postFormLastName" id="postFormLastName"
+        [(ngModel)]="formEmployee.employeeLastName">
+
+        <label for="postFormAddress">Address: </label>
+        <input type="text" name="postFormAddress" id="postFormAddress"
+        [(ngModel)]="formEmployee.employeeAddress">
+
+        <label for="postFormSsn">SSN: </label>
+        <input type="text" name="postFormSsn" id="postFormSsn"
+        [(ngModel)]="formEmployee.employeeSsn">
+
+        <label for="postFormOfficeId">Office ID: </label>
+        <input type="number" name="postFormOfficeId" id="postFormOfficeId"
+        [(ngModel)]="formEmployee.office.officeId">
+
+        <!-- disabling our button if the entered name or ID is a duplicate -->
+         
+    </form>
+
+    <button (click)="addEmployee()">CREATE</button>
+    
+    @if (officeDoesNotExist) {
+        <p class="error">Office with that ID does not exist!</p>
+    }
+    
+    @if (employeeDoesNotExist) {
+        <p class="error">Employee with that ID doesn't exist!</p>
+    }
+    
+    @if (maxEmployees) {
+        <p class="error">This office has the maximum number of employees!</p>
+    }
+    
+</div>
+
+
+
+
+<h4>Search by Employee ID:</h4>
+
+<article>
+    <form #idForm>
+        <input type="number"   
+                id="searchId" 
+                name="searchId"
+                [(ngModel)]="searchId" #formId>
+
+        <button id="search" (click)="getEmployeeById()">SUBMIT</button>
+        <button id="reset" (click)="getAllEmployees()">RESET</button>
+    </form>
+</article>
+
+
+
+<article>
+    <h2>Employees </h2>
+    <button (click)="getAllEmployees()">Sort by ID</button>
+    <button (click)="getEmployeesSortedByName()">Sort by Name</button>
+    <br>
+    @for (employee of employees; track $index) {
+        <!-- [] binds the department property value of this card to the value of
+            department, which is the current item in the loop -->
+        <app-employee-card (deleteEmployeeEvent)="processDeleteEvent($event)" [employee]="employee"></app-employee-card>
+    }
+</article>

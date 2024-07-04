@@ -1,6 +1,7 @@
 package com.skillstorm.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +17,7 @@ import com.skillstorm.services.OfficeService;
 
 @RestController
 @RequestMapping("/office")	
-@CrossOrigin(origins = "*")	
+@CrossOrigin(origins = "*", exposedHeaders = {"error"})	
 public class OfficeController {
 
 	@Autowired
@@ -27,22 +28,29 @@ public class OfficeController {
 		return service.getAllOffices();
 	}
 	
+	@GetMapping("/sortName")
+	public Iterable<Office> getEmployeesSortedByName() {
+		return service.getOfficeSortedByName();
+	}
+	
 	@GetMapping("/{id}")
-	public Office getOfficeById(@PathVariable int id) {
+	public ResponseEntity<Office> getOfficeById(@PathVariable int id) {
 		return service.getOfficeById(id);
 	}
 	
 	@PutMapping
-	public Office updateOffice(@RequestBody Office office) {
-		return service.updateOffice(office);
+	public ResponseEntity<Office> updateEmployee(@RequestBody Office office) {
+		ResponseEntity<Office> response = service.updateOffice(office);
+		System.out.println(response);
+		return response;
 	}
 	
 	@PostMapping
-	public Office createOffice(@RequestBody Office office) {
+	public ResponseEntity<Office> createOffice(@RequestBody Office office) {
 		return service.createOffice(office);
 	}
 	
-	@DeleteMapping
+	@DeleteMapping("/{id}")
 	public void deleteOfficeById(@PathVariable int id) {
 		service.deleteOfficeById(id);
 	}

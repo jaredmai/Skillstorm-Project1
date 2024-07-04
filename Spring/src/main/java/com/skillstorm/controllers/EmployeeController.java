@@ -1,6 +1,7 @@
 package com.skillstorm.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +17,7 @@ import com.skillstorm.services.EmployeeService;
 
 @RestController							// combines @Controller and @ResponseBody
 @RequestMapping("/employee")			// all requests to baseUrl plus this suffix will route here
-@CrossOrigin(origins = "*")	
+@CrossOrigin(origins = "*", exposedHeaders = {"error"})	
 public class EmployeeController {
 
 	@Autowired
@@ -31,21 +32,33 @@ public class EmployeeController {
 	}
 	
 	@GetMapping("/{id}")
-	public Employee getEmployeeById(@PathVariable int id) {
+	public ResponseEntity<Employee> getEmployeeById(@PathVariable int id) {
 		return service.getEmployeeById(id);
 	}
 	
+	@GetMapping("/sortName")
+	public Iterable<Employee> getEmployeesSortedByName() {
+		return service.getEmployeesSortedByName();
+	}
+	
+	@GetMapping("/count/{id}")
+	public int getEmployeeCountByOfficeId(@PathVariable int id) {
+		return service.getEmployeeCountByOfficeId(id);
+	}
+	
 	@PutMapping
-	public Employee updateEmployee(@RequestBody Employee employee) {
-		return service.updateEmployee(employee);
+	public ResponseEntity<Employee> updateEmployee(@RequestBody Employee employee) {
+		ResponseEntity<Employee> response = service.updateEmployee(employee);
+		System.out.println(response);
+		return response;
 	}
 	
 	@PostMapping
-	public Employee createEmployee(@RequestBody Employee employee) {
+	public ResponseEntity<Employee> createEmployee(@RequestBody Employee employee) {
 		return service.createEmployee(employee);
 	}
 	
-	@DeleteMapping
+	@DeleteMapping("/{id}")
 	public void deleteEmployeeById(@PathVariable int id) {
 		service.deleteEmployeeById(id);
 	}

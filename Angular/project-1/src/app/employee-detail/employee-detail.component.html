@@ -1,0 +1,71 @@
+<h1>Employee Details</h1>
+<h3>Employee ID: {{ employee.employeeId }}</h3>
+
+<table>
+    <tbody>
+        <tr>
+            <td>First Name</td>
+            <td>{{ employee.employeeFirstName }}</td>
+        </tr>
+
+        <tr>
+            <td>Last Name</td>
+            <td>{{ employee.employeeLastName }}</td>
+        </tr>
+
+        <tr>
+            <td>Address</td>
+            <td>{{ employee.employeeAddress }}</td>
+        </tr>
+
+        <tr>
+            <td>Social Security Number</td>
+            <td>{{ employee.employeeSsn }}</td>
+        </tr>
+
+        <tr class="officeRouteButton" (click)="routeToOfficeDetail(employee.office.officeId)">
+            <td>Office ID</td>
+            <td>{{ employee.office.officeId }}</td>
+        </tr>
+
+        <tr class="officeRouteButton" (click)="routeToOfficeDetail(employee.office.officeId)">
+            <td>Office Name</td>
+            <td>{{ employee.office.officeName }}</td>
+        </tr>
+    </tbody>
+</table>
+
+<form>
+    <h2>Edit Details</h2>
+
+    <label for="updateFirstName">First Name: </label>
+    <input type="text" id="updateFirstName" name="updateFirstName"
+        [(ngModel)]='updatedEmployee.employeeFirstName'>
+
+    <label for="updateLastName">Last Name: </label>
+    <input type="text" id="updateLastName" name="updateLastName"
+        [(ngModel)]='updatedEmployee.employeeLastName'>
+
+    <label for="updateAddress">Address: </label>
+    <input type="text" id="updateAddress" name="updateAddress"
+        [(ngModel)]='updatedEmployee.employeeAddress'>
+
+    <label for="updateSsn">SSN: </label>
+    <input type="text" id="updateSsn" name="updateSsn"
+        [(ngModel)]='updatedEmployee.employeeSsn'>
+
+    <label for="updateOfficeId">Office ID: </label>
+    <input type="number" id="updateOfficeId" name="updateOfficeId"
+        [(ngModel)]='updatedEmployee.office.officeId'>
+
+        @if (officeDoesNotExist) {
+            <p style="color: red;">Office with that ID doesn't exist!</p>
+        }
+        
+        @if (maxEmployees) {
+            <p style="color: red;">This office has the maximum number of employees!</p>
+        }
+
+    <button (click)="updateEmployee()">UPDATE</button>
+</form>
+

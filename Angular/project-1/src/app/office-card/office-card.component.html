@@ -1,0 +1,14 @@
+<article>
+    <h3>{{ office.officeName }}</h3>
+    <h4>Office ID: {{ office.officeId }}</h4>
+    <h5>Employees: {{ office.employees.length}}/{{ office.officeMaxEmployees }} </h5>
+
+    <button id="edit" (click)="editOffice()">EDIT</button>
+    <button id="delete" (click)="deleteOffice()">DELETE</button>
+   
+<!-- 
+    <button (click)="sendFavoriteDepartment()">FAVORITE</button>
+    <button (click)="deleteThisDepartment()">DELETE</button> -->
+ 
+</article>
+
