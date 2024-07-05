@@ -66,6 +66,7 @@ export class OfficeDetailComponent {
         // If the error is a 400 and the header is maxEmployees, we set maxEmployees to true
         if (error.status == 400 && error.headers.get('error') == 'maxEmployees') {
           this.maxEmployees = true;
+          console.log("Max Employees Error")
         }
 
         // Get the office again to reset the form

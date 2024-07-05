@@ -42,14 +42,14 @@
         <button id="search" (click)="getOfficeById()">SUBMIT</button>
         <button id="reset" (click)="getAllOffices()">RESET</button>
     </form>
-
-    <!-- Error message -->
-    @if (officeDoesNotExist) {
-        <div style="color: red;">
-            Employee with that ID doesn't exist!
-        </div>
-    }
 </article>
+
+<!-- Error message -->
+@if (officeDoesNotExist) {
+    <p class="error">
+        Office with that ID doesn't exist!
+    </p>
+}
 
 <!-- Display office cards -->
 <article>

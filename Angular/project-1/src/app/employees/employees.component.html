@@ -33,11 +33,6 @@
         <p class="error">Office with that ID does not exist!</p>
     }
     
-    <!-- Display an error if no employee is found after search -->
-    @if (employeeDoesNotExist) {
-        <p class="error">Employee with that ID doesn't exist!</p>
-    }
-    
     <!-- Display an error if the Office ID provided is full on employees -->
     @if (maxEmployees) {
         <p class="error">This office has the maximum number of employees!</p>
@@ -61,6 +56,12 @@
         <button id="reset" (click)="getAllEmployees()">RESET</button>
     </form>
 </article>
+
+    
+<!-- Display an error if no employee is found after search -->
+@if (employeeDoesNotExist) {
+    <p class="error">Employee with that ID doesn't exist!</p>
+}
 
 
 

@@ -87,14 +87,24 @@ export class OfficesComponent {
 
   // Method to get an office by id
   getOfficeById() {
-    this.offices = [];
 
-    this.httpService.getOfficeById(this.searchId)
-        .subscribe(response => {
-          let body: any = response.body;
-
-          this.offices.push(new Office(body.officeId, body.officeName, body.officeAddress, body.officeMaxEmployees, body.employees));
-        });
+    // Send the HTTP Request
+    this.httpService.getOfficeById(this.searchId).subscribe(
+      {
+        // response was successful, clear the employees array and add the employee to it
+        next: data => {
+          this.offices = [];
+          if (data.body && data.body !== null) {
+            this.offices.push(data.body as Office);
+            this.officeDoesNotExist = false;
+          }
+        },
+        // response was an error, set the employeeDoesNotExist flag to true
+        error: error => {
+          this.officeDoesNotExist = true;
+          this.getAllOffices();
+        },
+      });
   }
 
   // Method to delete an office by id
