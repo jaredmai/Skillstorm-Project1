@@ -63,7 +63,7 @@ export class EmployeesComponent {
       error: error => {
 
         // If the error is a 400 and the header is badOfficeId, we set officeDoesNotExist to true
-        if (error.status == 400 && error.headers.get('error') == 'badOfficeId') {
+        if (error.status == 404 && error.headers.get('error') == 'badOfficeId') {
           this.officeDoesNotExist = true;
 
         // If the error is a 400 and the header is maxEmployees, we set maxEmployees to true

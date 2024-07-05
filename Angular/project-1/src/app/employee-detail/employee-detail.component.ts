@@ -88,7 +88,7 @@ export class EmployeeDetailComponent {
             this.maxEmployees = true;
           }
 
-          if (error.status == 400 && error.headers.get('error') == 'badOfficeId') {
+          if (error.status == 404 && error.headers.get('error') == 'badOfficeId') {
             this.officeIdNotFound = true;
           } 
 
