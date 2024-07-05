@@ -1,6 +1,7 @@
 <h1>Employee Details</h1>
 <h3>Employee ID: {{ employee.employeeId }}</h3>
 
+<!-- Displays a table showing detailed employee information -->
 <table>
     <tbody>
         <tr>
@@ -23,6 +24,7 @@
             <td>{{ employee.employeeSsn }}</td>
         </tr>
 
+        <!-- Allowing the use to click the Office ID or Name to be sent to the OfficeDetailComponent -->
         <tr class="officeRouteButton" (click)="routeToOfficeDetail(employee.office.officeId)">
             <td>Office ID</td>
             <td>{{ employee.office.officeId }}</td>
@@ -35,6 +37,8 @@
     </tbody>
 </table>
 
+
+<!-- A form allowing user to edit employee details -->
 <form>
     <h2>Edit Details</h2>
 
@@ -57,11 +61,8 @@
     <label for="updateOfficeId">Office ID: </label>
     <input type="number" id="updateOfficeId" name="updateOfficeId"
         [(ngModel)]='updatedEmployee.office.officeId'>
-
-        @if (officeDoesNotExist) {
-            <p style="color: red;">Office with that ID doesn't exist!</p>
-        }
         
+        <!-- Display error if user tries to update officeId to one that is full! -->
         @if (maxEmployees) {
             <p style="color: red;">This office has the maximum number of employees!</p>
         }

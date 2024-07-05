@@ -19,10 +19,12 @@ export class EmployeeCardComponent {
 
   @Output() deleteEmployeeEvent = new EventEmitter<number>();
 
+  // Emits the deleteEmployeeEvent with the employeeId of the employee to be deleted
   deleteEmployee() {
     this.deleteEmployeeEvent.emit(this.employee.employeeId);
   }
 
+  // Routes the user to the EmployeeDetailComponent with the employeeId of the employee to be viewed
   editEmployee() {
     this.router.navigate(['employee/' + this.employee.employeeId]);
   }

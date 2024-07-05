@@ -14,38 +14,47 @@ import { Office } from '../models/office';
 })
 export class OfficesComponent {
 
+  // Array to hold all the offices, will be used to create office cards
   offices: Office[] = [];
+  // Array to hold all the office names, will be used for the search bar
   officeNames: string[] = [];
+  // Variable to hold the search id
   searchId: number = 0;
+  // Error flag for when the office does not exist when searching by id
   officeDoesNotExist: boolean = false;
 
   // this injects HttpClient for us to use
   // dependency injection
-  // the client is a singleton, like when we inject services in Spring
   constructor(private httpService: HttpService) {
     // method that makes the call
     this.getAllOffices();
   }
 
+  // Object to hold the form data
   formOffice: Office = new Office(0, "", "", 0, []);
 
+  // Error flag for when the office name is null
   isNameNull: boolean = false;
 
+  // Method to add an office to the database
   addOffice() {
+    // if the name is null, set the error flag to true and return
     if (this.formOffice.officeName == "") {
       this.isNameNull = true;
       return;
     }
     this.isNameNull = false;
-    console.log(this.formOffice)
+
+    // make the call to the service
     this.httpService.addOffice(this.formOffice)
         .subscribe(response => {
-          console.log(response);
           this.getAllOffices();
         });
   }
 
+  // Get all offices from API, add them to the offices array
   getAllOffices() {
+    // clear the arrays
     this.offices = [];
     this.officeNames = [];
 
@@ -54,14 +63,15 @@ export class OfficesComponent {
           let body: any = response.body;
 
           for (let item of body) {
-            // we're creating a new Department object for each item in the response
-            // and pushing it into our departments array
+            // we're creating a new Office object for each item in the response
+            // and pushing it into our offices array
             this.offices.push(new Office(item.officeId, item.officeName, item.officeAddress, item.officeMaxEmployees, item.employees));
             this.officeNames.push(item.officeName);
           }
         });
   }
 
+  // Method to get all offices sorted by name
   getOfficesSortedByName() {
     this.offices = [];
 
@@ -75,6 +85,7 @@ export class OfficesComponent {
         });
   }
 
+  // Method to get an office by id
   getOfficeById() {
     this.offices = [];
 
@@ -86,14 +97,18 @@ export class OfficesComponent {
         });
   }
 
+  // Method to delete an office by id
   deleteOffice(officeId: number) {
-    this.httpService.deleteOffice(officeId)
-      .subscribe(data => {
-        this.getAllOffices();
-      });
+    // confirm the deletion
+    if (confirm("Are you sure you want to delete this office? ID: (" + officeId + ")")) {
+      this.httpService.deleteOffice(officeId)
+        .subscribe(data => {
+          this.getAllOffices();
+        });
+    }
   }
 
-  // this method runs when the deleteDepartmentEvent is emitted from the child component
+  // this method runs when the deleteOfficeEvent is emitted from the child component
   processDeleteEvent(officeId: number) {
     this.deleteOffice(officeId);
   }

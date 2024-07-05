@@ -1,5 +1,6 @@
 <div class="buttons">
     <h2>Create New Employee</h2>
+    <!-- Form to create new employee -->
     <form>
         <label for="postFormFirstName">First Name: </label>
         <input type="text" name="postFormFirstName" id="postFormFirstName"
@@ -27,14 +28,17 @@
 
     <button (click)="addEmployee()">CREATE</button>
     
+    <!-- Display an error if the officeId is invalid-->
     @if (officeDoesNotExist) {
         <p class="error">Office with that ID does not exist!</p>
     }
     
+    <!-- Display an error if no employee is found after search -->
     @if (employeeDoesNotExist) {
         <p class="error">Employee with that ID doesn't exist!</p>
     }
     
+    <!-- Display an error if the Office ID provided is full on employees -->
     @if (maxEmployees) {
         <p class="error">This office has the maximum number of employees!</p>
     }
@@ -43,7 +47,7 @@
 
 
 
-
+<!-- Search by ID -->
 <h4>Search by Employee ID:</h4>
 
 <article>
@@ -65,9 +69,9 @@
     <button (click)="getAllEmployees()">Sort by ID</button>
     <button (click)="getEmployeesSortedByName()">Sort by Name</button>
     <br>
+    <!-- loop to create an Employee Card for each employee -->
     @for (employee of employees; track $index) {
-        <!-- [] binds the department property value of this card to the value of
-            department, which is the current item in the loop -->
+        <!-- Listening for a delete event to be process by this page from the cards -->
         <app-employee-card (deleteEmployeeEvent)="processDeleteEvent($event)" [employee]="employee"></app-employee-card>
     }
 </article>

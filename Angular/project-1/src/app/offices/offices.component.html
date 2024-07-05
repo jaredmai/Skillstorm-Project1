@@ -1,4 +1,5 @@
 <div class="buttons">
+    <!-- Form to collect details for new office -->
     <h2>Create New Office</h2>
     <form>
         <label for="postFormName">Office Name: </label>
@@ -11,14 +12,13 @@
 
         <label for="postFormMax">Max Number of Employees: </label>
         <input type="number" name="postFormMax" id="postFormMax"
-        [(ngModel)]="formOffice.officeMaxEmployees">
-        <!-- disabling our button if the entered name or ID is a duplicate -->
-        
+        [(ngModel)]="formOffice.officeMaxEmployees">        
     </form>
 
-    
+    <!-- Button to submit form -->
     <button [disabled]="officeNames.includes(formOffice.officeName)" (click)="addOffice()">CREATE</button>
 
+    <!-- Error messages -->
     @if (officeNames.includes(formOffice.officeName)) {
         <p class="error">Office Name already exists!</p>
     }
@@ -29,6 +29,7 @@
     
 </div>
 
+<!-- Search by Office ID -->
 <h4>Search by Office ID:</h4>
 
 <article>
@@ -42,6 +43,7 @@
         <button id="reset" (click)="getAllOffices()">RESET</button>
     </form>
 
+    <!-- Error message -->
     @if (officeDoesNotExist) {
         <div style="color: red;">
             Employee with that ID doesn't exist!
@@ -49,6 +51,7 @@
     }
 </article>
 
+<!-- Display office cards -->
 <article>
     <h2>Offices</h2>
 

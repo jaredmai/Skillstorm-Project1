@@ -1,17 +1,16 @@
 <article>
     <h3>{{ employee.employeeFirstName + " " + employee.employeeLastName }}</h3>
     <h4>Employee ID: {{ employee.employeeId }}</h4>
+
+    <!-- Check if employee has an assigned office -->
     @if (employee.office) {
         <h5>Office: {{ employee.office.officeName }}</h5>
     } @else {
+        <!-- Employee has no assigned office, display special text -->
         <h5 style="color: rgba(255, 115, 115, 0.802);">No assigned office!</h5>
     }
     
-
     <button id="edit" (click)="editEmployee()">EDIT</button>
     <button id="delete" (click)="deleteEmployee()">DELETE</button>
-<!-- 
-    <button (click)="sendFavoriteDepartment()">FAVORITE</button>
-    <button (click)="deleteThisDepartment()">DELETE</button> -->
  
 </article>

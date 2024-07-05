@@ -19,78 +19,72 @@ export class HttpService {
   url: String = 'http://localhost:8080/';
   
 
-  // a GET request for all Departments
+  // a GET request for all Employees
   getAllEmployees() {
     return this.http.get(this.url + 'employee', { observe: 'response' });
   }
 
-  // a GET request for a single Department (by id as a path variable)
+  // a GET request for a single Employee (by id as a path variable)
   getEmployeeById(employeeId: number) {
     return this.http.get(this.url + 'employee/' + employeeId, { observe: 'response' });
   }
 
+  // a GET request for all Employees in a Department sorted by name
   getEmployeesSortedByName() {
     return this.http.get(this.url + 'employee/sortName', { observe: 'response' });
   }
 
-  // a POST request to create a Department
+  // a POST request to create a Employee
   createEmployee(employee: Employee) {
     return this.http.post(this.url + 'employee', 
       employee,
-      // the above is equivalent to this but with an
-      // enforced adherence to the Department format
-      // {'departmentId': 123,
-      // 'departmentName': 'Test Post Department',
-      // 'employees': []}, 
       { observe: 'response' });
   }
 
-  // a PUT request to update a Department
-  // request parameters for name and id, List of employees in the body
-  
+  // a PUT request to update a Employee
   updateEmployee(employee: Employee) {
     return this.http.put(this.url + 'employee', 
       employee,
       { observe: 'response' });
   }
 
-  // a DELETE request to delete a Department
+  // a DELETE request to delete a Employee
   deleteEmployee(employeeId: number) {
     return this.http.delete(this.url + 'employee/' + employeeId, { observe: 'response' });
   }
 
 
 
+  // a GET request for all Offices
   getAllOffices() {
     return this.http.get(this.url + 'office', { observe: 'response' });
   }
 
-  // a GET request for a single Department (by id as a path variable)
+  // a GET request for a single Office (by id as a path variable)
   getOfficeById(officeId: number) {
     return this.http.get(this.url + 'office/' + officeId, { observe: 'response' });
   }
 
+  // a GET request for all Offices sorted by name
   getOfficesSortedByName() {
     return this.http.get(this.url + 'office/sortName', { observe: 'response' });
   }
 
-  // a POST request to create a Department
+  // a POST request to create a Office
   addOffice(office: Office) {
     return this.http.post(this.url + 'office', 
       office,
       { observe: 'response' });
   }
 
-  // a PUT request to update a Department
-  // request parameters for name and id, List of employees in the body
-  
+  // a PUT request to update a Office
   updateOffice(office: Office) {
     return this.http.put(this.url + 'office', 
       office,
       { observe: 'response' });
   }
 
-  // a DELETE request to delete a Department
+  // a DELETE request to delete a Office
   deleteOffice(officeId: number) {
     return this.http.delete(this.url + 'office/' + officeId, { observe: 'response' });
   }

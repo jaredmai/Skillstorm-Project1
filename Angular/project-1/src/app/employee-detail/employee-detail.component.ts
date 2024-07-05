@@ -15,8 +15,10 @@ import { NgClass } from '@angular/common';
 })
 export class EmployeeDetailComponent {
 
+  // Employee object to hold the employee we are displaying
   employee: Employee = new Employee(0, "Test", "", "", "", 0, new Office(0, "", "", 0, []));
-  officeDoesNotExist: boolean = false;
+
+  // Boolean activated when user attempts to add an employee to an office that is at max capacity
   maxEmployees: boolean = false;
 
   // ActivatedRoute allows us to have access to values included in the route/URL
@@ -24,65 +26,68 @@ export class EmployeeDetailComponent {
     this.getEmployeeById();
   }
 
+  // Function to get the employee by the employeeId included in the route
   getEmployeeById() {
     // this syntax allows us to access specific parameter values
     console.log(this.route.snapshot.params['id']);
 
+    // Actualling sending the http request to get the employee by the employeeId
     this.httpService.getEmployeeById(this.route.snapshot.params['id']) 
                         .subscribe(data => {
+                          // Casting the response body to an Employee object
                           this.employee = data.body as Employee;
+
+                          // If office is null, we create a dummy office object to prevent errors
                           if (this.employee.office == null) {
                             this.employee.office = new Office(0, "Office Not Found", "", 0, []);
                           }
+
+                          // Setting the updatedEmployee object to the employee object we just received
                           this.updatedEmployee = new Employee(this.employee.employeeId,
                                                      this.employee.employeeFirstName, 
                                                      this.employee.employeeLastName, 
                                                      this.employee.employeeAddress, 
                                                      this.employee.employeeSsn, 
                                                      this.employee.employeeManagerId, 
+                                                     // We only need officeId and officeName for the updatedEmployee object
+                                                     // Thus, we create a new Office object with only those values
                                                      new Office(this.employee.office.officeId, this.employee.office.officeName, "", 0, []));
-                          console.log(this.employee);
                          }
                       
                       );
                         
   }
 
+  // Employee object to hold the updated employee information for the form
   updatedEmployee: Employee = new Employee(0, "", "", "", "", 0, new Office(0, "", "", 0, []));
 
-
+  // Function to route the user to the OfficeDetailComponent with the officeId of the office to be viewed
+  // This function is called when the user clicks on the office name or id in the employee detail view
   routeToOfficeDetail(officeId: number) {
     this.router.navigate(['office/' + officeId]);
   }
 
+  // Function to update the employee information based on the form input
   updateEmployee() {
     this.httpService.updateEmployee(this.updatedEmployee).subscribe(
       {
+        // If the update is successful, we get the updated employee information
         next: data => {
           if (data.body && data.body !== null) {
             this.getEmployeeById();
-            this.officeDoesNotExist = false;
             this.maxEmployees = false;
-            console.log('success!');
           }
         },
-        error: error => { // some lambda for an error response
-  
-          console.log(error);
-          if (error.status == 400 && error.headers.get('error') == 'invalidOfficeId') {
-            this.officeDoesNotExist = true;
-            this.maxEmployees = false;
-          } else if (error.status == 400 && error.headers.get('error') == 'maxEmployees') {
+        // If the update is unsuccessful, we get the error response and display a message to the user
+        error: error => {
+          // If the error status is 400 and the error header is 'maxEmployees', we set the maxEmployees boolean to true
+          if (error.status == 400 && error.headers.get('error') == 'maxEmployees') {
             this.maxEmployees = true;
-            this.officeDoesNotExist = false;
           }
+
+          // Update the employee information regardless of the error, so the user can see the current information
           this.getEmployeeById();
         },
-        // a lambda for something to do AFTER a successful response
-        // useful for void return HTTP methods like DELETE
-        complete: () => {
-          console.log('Complete');
-        }
     });
   }
   
