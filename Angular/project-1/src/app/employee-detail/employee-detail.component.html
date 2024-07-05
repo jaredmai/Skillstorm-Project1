@@ -62,11 +62,17 @@
     <input type="number" id="updateOfficeId" name="updateOfficeId"
         [(ngModel)]='updatedEmployee.office.officeId'>
         
-        <!-- Display error if user tries to update officeId to one that is full! -->
-        @if (maxEmployees) {
-            <p style="color: red;">This office has the maximum number of employees!</p>
-        }
+    <!-- Display error if user tries to update officeId to one that is full! -->
+    @if (maxEmployees) {
+        <p class="error">This office has the maximum number of employees!</p>
+    }
+
+    @if (officeIdNotFound) {
+        <p class="error">Office ID is not found!</p>
+    }
 
     <button (click)="updateEmployee()">UPDATE</button>
+
+    
 </form>
 

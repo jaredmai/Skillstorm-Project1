@@ -21,6 +21,8 @@ export class EmployeeDetailComponent {
   // Boolean activated when user attempts to add an employee to an office that is at max capacity
   maxEmployees: boolean = false;
 
+  officeIdNotFound: boolean = false;
+
   // ActivatedRoute allows us to have access to values included in the route/URL
   constructor(private route: ActivatedRoute, private httpService: HttpService, private router: Router) { 
     this.getEmployeeById();
@@ -76,6 +78,7 @@ export class EmployeeDetailComponent {
           if (data.body && data.body !== null) {
             this.getEmployeeById();
             this.maxEmployees = false;
+            this.officeIdNotFound = false;
           }
         },
         // If the update is unsuccessful, we get the error response and display a message to the user
@@ -84,6 +87,10 @@ export class EmployeeDetailComponent {
           if (error.status == 400 && error.headers.get('error') == 'maxEmployees') {
             this.maxEmployees = true;
           }
+
+          if (error.status == 400 && error.headers.get('error') == 'badOfficeId') {
+            this.officeIdNotFound = true;
+          } 
 
           // Update the employee information regardless of the error, so the user can see the current information
           this.getEmployeeById();

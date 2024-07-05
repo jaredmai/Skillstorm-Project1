@@ -10,7 +10,7 @@ import com.skillstorm.models.Employee;
 @Repository
 public interface EmployeeRepositiory extends CrudRepository<Employee, Integer> {
 	
-	// getting a count of the departments
+	// getting a count of the employees by office
 	@Query(value = "SELECT COUNT(*) FROM employee WHERE office_id = :officeId", nativeQuery = true)
 	public int countEmployeesByOffice(@Param("officeId") int officeId );
 	
